@@ -6,6 +6,7 @@ plugins {
 	kotlin("jvm") version "1.5.21"
 	kotlin("plugin.spring") version "1.5.21"
 	kotlin("plugin.jpa") version "1.5.21"
+	jacoco
 }
 
 group = "br.com.felipe"
@@ -24,6 +25,9 @@ dependencies {
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+	implementation("com.github.doyaaaaaken:kotlin-csv-jvm:0.15.2")
+	implementation("org.springdoc:springdoc-openapi-ui:1.5.10")
+	implementation("org.springdoc:springdoc-openapi-data-rest:1.5.10")
 
 	runtimeOnly("org.postgresql:postgresql")
 
@@ -41,4 +45,81 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+
+tasks.test {
+	extensions.configure(JacocoTaskExtension::class) {
+		file("$buildDir/jacoco/jacoco.exec")
+	}
+
+	finalizedBy("jacocoTestReport")
+}
+
+jacoco {
+	toolVersion = "0.8.7"
+}
+
+tasks.jacocoTestReport {
+	reports {
+		html.isEnabled = true
+		xml.isEnabled = false
+		csv.isEnabled = false
+
+	}
+
+	finalizedBy("jacocoTestCoverageVerification")
+}
+
+tasks.jacocoTestCoverageVerification {
+	violationRules {
+		rule {
+			limit {
+				minimum = "0.30".toBigDecimal()
+			}
+		}
+
+		rule {
+			enabled = true
+
+			element = "CLASS"
+
+			limit {
+				counter = "BRANCH"
+				value = "COVEREDRATIO"
+				minimum = "0.90".toBigDecimal()
+			}
+
+			limit {
+				counter = "LINE"
+				value = "COVEREDRATIO"
+				minimum = "0.80".toBigDecimal()
+			}
+
+			limit {
+				counter = "LINE"
+				value = "TOTALCOUNT"
+				maximum = "200".toBigDecimal()
+			}
+
+			includes = listOf(
+				"*Service",
+				"*Controller",
+				"*Repository"
+			)
+		}
+	}
+}
+
+val testCoverage by tasks.registering {
+	group = "verification"
+	description = "Runs the unit tests with coverage"
+
+	dependsOn(
+		":test",
+		":jacocoTestReport",
+		":jacocoTestCoverageVerification"
+	)
+
+	tasks["jacocoTestReport"].mustRunAfter(tasks["test"])
+	tasks["jacocoTestCoverageVerification"].mustRunAfter(tasks["jacocoTestReport"])
 }
