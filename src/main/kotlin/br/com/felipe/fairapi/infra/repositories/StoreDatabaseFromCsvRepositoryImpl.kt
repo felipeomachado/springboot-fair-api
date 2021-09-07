@@ -5,6 +5,7 @@ import br.com.felipe.fairapi.infra.models.FairEntity
 import br.com.felipe.fairapi.infra.repositories.spring.jpa.FairJpaRepository
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
 import org.springframework.stereotype.Component
+import java.time.LocalDateTime
 
 @Component
 class StoreDatabaseFromCsvRepositoryImpl(
@@ -41,9 +42,29 @@ class StoreDatabaseFromCsvRepositoryImpl(
 
                     fairEntity.id?.let {
                         val optionalFair = fairJpaRepository.findById(it)
-                        if (!optionalFair.isPresent) {
+
+                        if (optionalFair.isPresent)
+                            fairJpaRepository.save(optionalFair.get().copy(
+                                longitude = fairEntity.longitude,
+                                latitude = fairEntity.latitude,
+                                sector = fairEntity.sector,
+                                area = fairEntity.area,
+                                districtCode = fairEntity.districtCode,
+                                districtName = fairEntity.districtName,
+                                subCityHallCode = fairEntity.subCityHallCode,
+                                subCityHallName = fairEntity.subCityHallName,
+                                region5 = fairEntity.region5,
+                                region8 = fairEntity.region8,
+                                name = fairEntity.name,
+                                register = fairEntity.register,
+                                street = fairEntity.street,
+                                number = fairEntity.number,
+                                neighborhood = fairEntity.neighborhood,
+                                reference = fairEntity.reference,
+                                updatedAt = LocalDateTime.now()))
+                        else
                             fairs.add(fairEntity)
-                        }
+                        
                     }
                 }
             }

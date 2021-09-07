@@ -51,12 +51,14 @@ class FairRepositoryImpl(
                 number = fair.number,
                 neighborhood = fair.neighborhood,
                 reference = fair.reference,
+                createdAt = fair.createdAt,
+                updatedAt = fair.updatedAt,
             )
         ).toModel()
     }
 
     override fun findAll(filter: SearchFairFilter, page: Int, size: Int): List<Fair> {
-
+        val abc = jpaRepository.findAll()
         val criteriaBuilder: CriteriaBuilder = entityManager.criteriaBuilder
         val criteriaQuery: CriteriaQuery<FairEntity> = criteriaBuilder.createQuery(
             FairEntity::class.java

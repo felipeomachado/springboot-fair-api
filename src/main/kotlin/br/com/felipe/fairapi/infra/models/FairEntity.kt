@@ -1,6 +1,7 @@
 package br.com.felipe.fairapi.infra.models
 
 import br.com.felipe.fairapi.domain.models.Fair
+import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
@@ -25,7 +26,9 @@ data class FairEntity(
     val number: String,
     val neighborhood: String,
     val reference: String,
-    val active: Boolean
+    val active: Boolean,
+    val createdAt: LocalDateTime = LocalDateTime.now(),
+    val updatedAt: LocalDateTime = LocalDateTime.now()
 ){
     constructor(fairModel: Fair): this(
         id = fairModel.id,
