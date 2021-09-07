@@ -64,7 +64,7 @@ class StoreDatabaseFromCsvRepositoryImpl(
                                 updatedAt = LocalDateTime.now()))
                         else
                             fairs.add(fairEntity)
-                        
+
                     }
                 }
             }

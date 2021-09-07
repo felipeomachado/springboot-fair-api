@@ -58,12 +58,12 @@ class FairRepositoryImpl(
     }
 
     override fun findAll(filter: SearchFairFilter, page: Int, size: Int): List<Fair> {
-        val abc = jpaRepository.findAll()
+
         val criteriaBuilder: CriteriaBuilder = entityManager.criteriaBuilder
         val criteriaQuery: CriteriaQuery<FairEntity> = criteriaBuilder.createQuery(
             FairEntity::class.java
         )
-        val fair = criteriaQuery.from(FairEntity::class.java)
+
         val fairRoot: Root<FairEntity> = criteriaQuery.from(FairEntity::class.java)
         val predicates = mutableListOf<Predicate>()
 
@@ -83,10 +83,7 @@ class FairRepositoryImpl(
             predicates.add(criteriaBuilder.equal(fairRoot.get<String>("neighborhood"), it))
         }
 
-        predicates.add(criteriaBuilder.equal(fairRoot.get<String>("active"), true))
-
-        criteriaQuery.select(fair)
-            .where(criteriaBuilder.or(*predicates.toTypedArray()))
+        criteriaQuery.where(*predicates.toTypedArray())
 
         val resultList = entityManager.createQuery(criteriaQuery)
             .setFirstResult(page)
@@ -97,6 +94,4 @@ class FairRepositoryImpl(
             it.toModel()
         }.toList()
     }
-
-
 }
