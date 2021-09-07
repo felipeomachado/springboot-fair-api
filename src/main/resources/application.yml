@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/market-app
-    username: market-app
-    password: market@!20#
+    url: jdbc:postgresql://localhost:5432/fair-app
+    username: fair-app
+    password: fair@!20#
   jpa:
     hibernate:
       ddl-auto: update
