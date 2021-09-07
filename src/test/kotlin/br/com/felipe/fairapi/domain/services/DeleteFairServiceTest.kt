@@ -35,7 +35,7 @@ internal class DeleteFairServiceTest {
     }
 
     @Test
-    fun `should be throw ResourceNotFoundException when try to update a fair that doesn't exist`() {
+    fun `should be throw EntityNotFoundException when try to update a fair that doesn't exist`() {
         Mockito.`when`(repository.findById(Mockito.anyLong())).thenReturn(null)
 
         Assertions.assertThatThrownBy {
