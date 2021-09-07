@@ -28,6 +28,8 @@ dependencies {
 	implementation("com.github.doyaaaaaken:kotlin-csv-jvm:0.15.2")
 	implementation("org.springdoc:springdoc-openapi-ui:1.5.10")
 	implementation("org.springdoc:springdoc-openapi-data-rest:1.5.10")
+	implementation("ch.qos.logback.contrib:logback-json-classic:0.1.5")
+	implementation("ch.qos.logback.contrib:logback-jackson:0.1.5")
 
 	runtimeOnly("org.postgresql:postgresql")
 
