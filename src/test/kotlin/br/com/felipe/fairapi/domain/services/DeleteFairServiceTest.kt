@@ -1,53 +1,51 @@
 package br.com.felipe.fairapi.domain.services
 
+import br.com.felipe.fairapi.domain.exceptions.EntityNotFoundException
 import br.com.felipe.fairapi.domain.models.Fair
 import br.com.felipe.fairapi.domain.repositories.FairRepository
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.ArgumentMatchers
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.jupiter.MockitoExtension
-import org.mockito.kotlin.any
+import org.mockito.kotlin.argumentCaptor
 import java.time.LocalDateTime
 
 @ExtendWith(MockitoExtension::class)
-internal class CreateFairServiceTest {
+internal class DeleteFairServiceTest {
     @Mock
     lateinit var repository: FairRepository
 
     @InjectMocks
-    lateinit var createFairService: CreateFairService
+    lateinit var deleteFairService: DeleteFairService
 
     @Test
-    fun `should be create a new fair`() {
-        val fairToReturn = mockFair().copy(
-            id = 7,
-            active = true,
-            createdAt = LocalDateTime.now(),
-            updatedAt = LocalDateTime.now()
-        )
+    fun `should be delete a fair`() {
+        Mockito.`when`(repository.findById(Mockito.anyLong())).thenReturn(mockFair())
 
-        Mockito.`when`(repository.save(any())).thenReturn(fairToReturn)
+        deleteFairService.execute(ArgumentMatchers.anyLong())
 
-        val fairSaved = createFairService.execute(mockFair())
+        val captor = argumentCaptor<Fair>()
+        Mockito.verify(repository).save(captor.capture())
 
-        Assertions.assertThat(fairSaved).isNotNull
-        Assertions.assertThat(fairSaved.id).isEqualTo(7);
+        Assertions.assertThat(captor.firstValue.active).isFalse
     }
 
     @Test
-    fun `should be thrown a exception on try to create a new fair`() {
-        Mockito.`when`(repository.save(any())).thenThrow(RuntimeException())
+    fun `should be throw ResourceNotFoundException when try to update a fair that doesn't exist`() {
+        Mockito.`when`(repository.findById(Mockito.anyLong())).thenReturn(null)
 
         Assertions.assertThatThrownBy {
-            createFairService.execute(mockFair())
-        }.isInstanceOf(RuntimeException::class.java)
+            deleteFairService.execute(ArgumentMatchers.anyLong())
+        }.isInstanceOf(EntityNotFoundException::class.java)
     }
 
-    private fun mockFair(): Fair {
+    private fun mockFair() : Fair {
         return Fair(
+            id = 7,
             longitude = -3.784596,
             latitude = 5.4178495,
             sector = "test sector",
@@ -64,6 +62,9 @@ internal class CreateFairServiceTest {
             number = "626",
             neighborhood = "COHAB",
             reference = "PROX AO HOSPITAL",
+            active = false,
+            createdAt = LocalDateTime.now(),
+            updatedAt = LocalDateTime.now()
         )
     }
 }
