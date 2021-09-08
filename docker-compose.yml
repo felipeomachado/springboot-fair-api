@@ -1,0 +1,28 @@
+version: '3.1'
+
+services:
+  db:
+    container_name: db_postgres
+    image: postgres
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: fair-app
+      POSTGRES_PASSWORD: fair@!20#
+    restart: always
+    ports:
+      - 5432:5432
+  app:
+    container_name: app_fair
+    build: .
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/fair-app
+      SPRING_DATASOURCE_USERNAME: fair-app
+      SPRING_DATASOURCE_PASSWORD: fair@!20#
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    depends_on: 
+      - db
+    ports:
+      - 8080:8080
+
+
