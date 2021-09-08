@@ -83,10 +83,12 @@ class FairRepositoryImpl(
             predicates.add(criteriaBuilder.equal(fairRoot.get<String>("neighborhood"), it))
         }
 
+        predicates.add(criteriaBuilder.equal(fairRoot.get<String>("active"), true))
+
         criteriaQuery.where(*predicates.toTypedArray())
 
         val resultList = entityManager.createQuery(criteriaQuery)
-            .setFirstResult(page)
+            .setFirstResult((page-1)*size)
             .setMaxResults(size)
             .resultList
 
