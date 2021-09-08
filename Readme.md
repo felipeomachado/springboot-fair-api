@@ -1,6 +1,6 @@
 # Fair-API
 
-##### A Fair-API é uma de gerenciamento de feiras livres. Com ela, você pode cadastrar, excluir, editar, consultar, importar dados de feiras via csv.
+##### A Fair-API é uma api de gerenciamento de feiras livres. Com ela, você pode cadastrar, excluir, editar, consultar, importar dados de feiras via csv.
 
 ## Tecnologias
 - Spring Boot
