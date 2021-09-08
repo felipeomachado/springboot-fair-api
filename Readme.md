@@ -58,6 +58,7 @@ A aplicação está atualmente publicada na AWS, simulando um ambiente de teste 
  - Cluster em 2 zonas de disponibilidade
  
 Url: `http://fair-Publi-1GIIUS47EWTQ2-84110573.us-west-1.elb.amazonaws.com`
+Health check: `http://fair-Publi-1GIIUS47EWTQ2-84110573.us-west-1.elb.amazonaws.com/actuator/health`
 
 ## Endpoints
 ### Cadastrar uma feira
