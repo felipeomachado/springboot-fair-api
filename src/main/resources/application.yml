@@ -10,3 +10,12 @@ spring:
 springdoc:
   api-docs:
     path: /api-docs
+
+aws:
+  region: us-east-1
+  bucketName: bucket-fair-app
+  key: AKIAVOTQT4BJEDFLI4DE
+  secret: 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
+
+file:
+  path: src\main\resources\files

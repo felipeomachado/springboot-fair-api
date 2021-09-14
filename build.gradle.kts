@@ -30,6 +30,7 @@ dependencies {
 	implementation("org.springdoc:springdoc-openapi-data-rest:1.5.10")
 	implementation("ch.qos.logback.contrib:logback-json-classic:0.1.5")
 	implementation("ch.qos.logback.contrib:logback-jackson:0.1.5")
+	implementation("com.amazonaws:aws-java-sdk-s3:1.12.65")
 
 	runtimeOnly("org.postgresql:postgresql")
 
