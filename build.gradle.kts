@@ -31,12 +31,15 @@ dependencies {
 	implementation("ch.qos.logback.contrib:logback-json-classic:0.1.5")
 	implementation("ch.qos.logback.contrib:logback-jackson:0.1.5")
 	implementation("com.amazonaws:aws-java-sdk-s3:1.12.65")
+	implementation("org.springframework.boot:spring-boot-starter-amqp")
 
 	runtimeOnly("org.postgresql:postgresql")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.mockito.kotlin:mockito-kotlin:3.2.0")
 	testImplementation("org.mockito:mockito-inline:2.13.0")
+	testImplementation("org.springframework.amqp:spring-rabbit-test")
+
 }
 
 tasks.withType<KotlinCompile> {

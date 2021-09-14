@@ -4,6 +4,7 @@ import br.com.felipe.fairapi.domain.repositories.UpdateDatabaseRepository
 import br.com.felipe.fairapi.infra.models.FairEntity
 import br.com.felipe.fairapi.infra.repositories.spring.jpa.FairJpaRepository
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime
 
@@ -11,13 +12,20 @@ import java.time.LocalDateTime
 class StoreDatabaseFromCsvRepositoryImpl(
     private val fairJpaRepository: FairJpaRepository
 ) : UpdateDatabaseRepository {
-    override fun updateDatabase() {
+
+    @Value("\${file.path}")
+    lateinit var path: String
+
+
+    override fun updateDatabase(fileName: String) {
+        val filePath = "${path}/${fileName}"
+
         val fairs = mutableListOf<FairEntity>()
 
         csvReader(init = {
             skipMissMatchedRow = true
         })
-            .open("src/main/resources/files/DEINFO_AB_FEIRASLIVRES_2014.csv") {
+            .open(filePath) {
                 readAllWithHeaderAsSequence().forEach { row: Map<String, String> ->
                     val fairEntity = FairEntity(
                         id = row["ID"]?.toLong(),

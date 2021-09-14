@@ -12,6 +12,15 @@ services:
     restart: always
     ports:
       - 5432:5432
+  rabbitmq:
+    container_name: mq_rabbit
+    image: bitnami/rabbitmq:latest
+    environment:
+      RABBITMQ_USERNAME: user
+      RABBITMQ_PASSWORD: bitnami
+    ports:
+      - 5672:5672
+      - 15672:15672
   app:
     container_name: app_fair
     build: .
@@ -22,7 +31,6 @@ services:
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
     depends_on: 
       - db
+      - rabbitmq
     ports:
       - 8080:8080
-
-

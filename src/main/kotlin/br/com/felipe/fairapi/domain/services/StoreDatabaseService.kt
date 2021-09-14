@@ -14,7 +14,7 @@ class StoreDatabaseService (
         try {
             log.info(">>>> StoreDatabaseService >>>> execute >> Start!")
 
-            updateDatabaseRepository.updateDatabase()
+            updateDatabaseRepository.updateDatabase("DEINFO_AB_FEIRASLIVRES_2014.csv")
 
             log.info(">>>> StoreDatabaseService >>>> execute >> End!")
         }catch (ex: RuntimeException) {

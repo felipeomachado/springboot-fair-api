@@ -2,7 +2,7 @@ package br.com.felipe.fairapi.infra.configurations
 
 import br.com.felipe.fairapi.domain.services.*
 import br.com.felipe.fairapi.infra.repositories.FairRepositoryImpl
-import br.com.felipe.fairapi.infra.repositories.RabbitMqMessagingImpl
+import br.com.felipe.fairapi.infra.repositories.RabbitMqMessagingRepositoryImpl
 import br.com.felipe.fairapi.infra.repositories.StoreDatabaseFromCsvRepositoryImpl
 import br.com.felipe.fairapi.infra.repositories.StoreFileToAwsS3Impl
 import org.springframework.context.annotation.Bean
@@ -37,7 +37,7 @@ class BeanConfiguration() {
     }
 
     @Bean
-    fun uploadFileService(storeFileToAwsS3Impl: StoreFileToAwsS3Impl, rabbitMqMessagingImpl: RabbitMqMessagingImpl): UploadFileService {
-        return UploadFileService(storeFileToAwsS3Impl, rabbitMqMessagingImpl)
+    fun uploadFileService(storeFileToAwsS3Impl: StoreFileToAwsS3Impl, rabbitMqMessagingRepositoryImpl: RabbitMqMessagingRepositoryImpl): UploadFileService {
+        return UploadFileService(storeFileToAwsS3Impl, rabbitMqMessagingRepositoryImpl)
     }
 }
